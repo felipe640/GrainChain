@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  GrainChain-Test
+
+  Created by Felipe Rosas on 08/01/20.
+  Copyright © 2020 Felipe Rosas. All rights reserved.
+*/
+
+"TIME_TITLE" = "Time";
+"DISTANCE_TITLE" = "DISTANCE";
+
+"DELETE_ROUTE_TITLE" = "Delete Route?";
+"DELETE_ROUTE_MESSAGE" = "Do you want delete this route?";
+
+"NAME_TITLE" = "Enter a name";
+"NAME_MESSAGE" = "Please eneter a name for the route";
+"NAME_PH" = "Name";
+
+"RECORD" = "Record";
+"STOP_RECORD" = "Stop";
