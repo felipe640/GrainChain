@@ -9,10 +9,9 @@
 import Foundation
 import RealmSwift
 
-class DatabaseManager{
+struct DatabaseManager{
     //MARK: private properties
     private var coordinates = List<RouteCoordinates>()
-    private let realm = try! Realm()
     
     //MARK: public functions
     func addCordinates(latitude: Double, longitude: Double){
@@ -22,15 +21,16 @@ class DatabaseManager{
     }
     
     func saveRoute(name: String?, startTime: Date, endTime: Date, distance: Double){
+        guard let realm = try? Realm() else { return }
         let end = Date()
         let routes = realm.objects(Route.self).count
         var finalName = ""
         let route = Route()
         
-        if let name = name {
+        if let name = name, name.count != 0 {
             finalName = name
         }else {
-            finalName = "\(routes) \(startTime.currentDateToStringFormated(type: .full))"
+            finalName = "\(routes)º \(startTime.currentDateToStringFormated(type: .full))"
         }
         
         route.id = startTime.currentDateToStringFormated(type: .interval)
@@ -45,11 +45,12 @@ class DatabaseManager{
         }
     }
     
-    func removeCoordinates() {
+    mutating func removeCoordinates() {
         coordinates = List<RouteCoordinates>()
     }
     
     func deleteRoute(id: String){
+        guard let realm = try? Realm() else { return }
         guard let query = realm.objects(Route.self).filter("id == %@", id).first else { return }
         
         try! realm.write {
@@ -58,6 +59,7 @@ class DatabaseManager{
     }
     
     func getRoutesList()->[Dictionary<String, Any>]{
+        guard let realm = try? Realm() else { return [Dictionary<String, Any>]() }
         let list = realm.objects(Route.self)
         var results = [Dictionary<String, Any>]()
         
@@ -71,6 +73,7 @@ class DatabaseManager{
     }
     
     func getRoute(id: String)-> Route? {
+        guard let realm = try? Realm() else { return nil }
         let query = realm.objects(Route.self).filter("id == %@", id).first
         return query
     }

@@ -18,3 +18,8 @@
 
 "RECORD" = "Grabar";
 "STOP_RECORD" = "Detener";
+
+"ERROR_GENERIC_TITLE" = "Error!";
+"ERROR_GENERIC_MESSAGE" = "Algo salió mal, intentalo más tarde.";
+"ERROR_ALLOW_LOCATION_TITLE" ="Ups!";
+"ERROR_ALLOW_LOCATION_MESSAGE" ="Enciende los servicios de localización.";

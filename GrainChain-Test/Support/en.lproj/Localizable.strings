@@ -7,7 +7,7 @@
 */
 
 "TIME_TITLE" = "Time";
-"DISTANCE_TITLE" = "DISTANCE";
+"DISTANCE_TITLE" = "Distance";
 
 "DELETE_ROUTE_TITLE" = "Delete Route?";
 "DELETE_ROUTE_MESSAGE" = "Do you want delete this route?";
@@ -18,3 +18,8 @@
 
 "RECORD" = "Record";
 "STOP_RECORD" = "Stop";
+
+"ERROR_GENERIC_TITLE" = "Error!";
+"ERROR_GENERIC_MESSAGE" = "Something went wrong, try again later.";
+"ERROR_ALLOW_LOCATION_TITLE" ="Ups!";
+"ERROR_ALLOW_LOCATION_MESSAGE" ="Turn on your location setting in settings.";

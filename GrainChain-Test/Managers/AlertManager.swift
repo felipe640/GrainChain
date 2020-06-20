@@ -10,34 +10,42 @@ import Foundation
 import UIKit
 
 class AlertManager {
-    private var alert = UIAlertController()
+    private var alert: UIAlertController?
     private var spinner = UIActivityIndicatorView(style: .large)
 
+    func showAlertSimple(with title: String, message: String, controller: UIViewController){
+        alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert?.addAction(UIAlertAction(title: "Ok", style: .default))
+        
+        controller.present(alert ?? UIAlertController(), animated: true, completion: nil)
+    }
     
     func showAlertWithOptions(with title: String, message: String, controller: UIViewController,
-                             completion: @escaping (_ response: Bool) -> Void){
+                              completion: ( (_ response: Bool) -> Void)? ){
         alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (alert) in
-            completion(true)
-        }))
-        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (aler) in
-            completion(false)
-        }))
+        guard let comp = completion else {return}
         
-        controller.present(alert, animated: true, completion: nil)
+        alert?.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (alert) in
+            comp(true)
+        }))
+        alert?.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (aler) in
+            comp(false)
+        }))
+    
+        controller.present(alert ?? UIAlertController(), animated: true, completion: nil)
     }
     
     func showAlertWithTextField(with title: String, message: String, placeholder: String
         ,controller: UIViewController, completion: @escaping (_ response: String?) -> Void){
         alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        alert.addTextField { (textField : UITextField!) -> Void in
+        alert?.addTextField { (textField : UITextField!) -> Void in
             textField.placeholder = placeholder
         }
         
-        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (alert) in
-            guard let textField = self.alert.textFields?[0] else {
+        alert?.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (alert) in
+            guard let textField = self.alert?.textFields?[0] else {
                 completion(nil)
                 return
             }
@@ -45,11 +53,11 @@ class AlertManager {
             completion(textField.text)
         }))
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (aler) in
+        alert?.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (aler) in
             completion(nil)
         }))
         
-        controller.present(alert, animated: true, completion: nil)
+        controller.present(alert ?? UIAlertController(), animated: true, completion: nil)
     }
     
     func showSpinner(view: UIView){
@@ -66,11 +74,4 @@ class AlertManager {
         spinner.removeFromSuperview()
     }
     
-    private func addChoiceButtons(){
-        
-    }
-    
-    private func addOkButton(){
-        alert.addAction(UIAlertAction(title: "Ok", style: .default))
-    }
 }

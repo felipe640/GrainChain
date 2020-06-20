@@ -30,11 +30,15 @@ class MapView: UIView {
     
     //MARK: public properties
     var delegate: MapViewDelegate?
-    var viewModel : MapViewViewModel?
+    var viewModel : MapViewViewModel? {
+        didSet{
+            self.showLoadedRoute()
+        }
+    }
     
     //MARK: private properties
     private var mapView: GMSMapView!
-    private var route = GMSMutablePath()
+    private var route: GMSMutablePath?
     private var routeTimer: Timer?
     private var distance: Double?
     fileprivate var isInRoute = false
@@ -47,10 +51,10 @@ class MapView: UIView {
     }()
     
     //MARK: lifecycle functions
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
         
-        setupMap()
+        commonInit()
     }
     
     //MARK: public functions
@@ -80,7 +84,7 @@ class MapView: UIView {
     func stopRoute(){
         isInRoute = false
         setMarker(position: .end)
-        let currentDistance = route.length(of: .geodesic) as Double
+        let currentDistance = route?.length(of: .geodesic) ?? 0 as Double
         distance = currentDistance.metersToKilometers()
         routeTimer?.invalidate()
         locationManager.stopUpdatingLocation()
@@ -92,7 +96,31 @@ class MapView: UIView {
         return  distance ?? 0
     }
     
+    func allowLocationUpdate()->Bool{
+        var access = false
+        
+        if CLLocationManager.locationServicesEnabled() {
+            switch CLLocationManager.authorizationStatus() {
+                case .notDetermined, .restricted, .denied:
+                    print("No access")
+                case .authorizedAlways, .authorizedWhenInUse:
+                    access = true
+                @unknown default:
+                break
+            }
+            } else {
+                print("Location services are not enabled")
+        }
+        
+        return access
+    }
+    
     //MARK: private functions
+    private func commonInit(){
+        self.route = GMSMutablePath()
+        setupMap()
+    }
+    
     private func setupMap() {
         let camera = GMSCameraPosition.camera(withLatitude: GoogleMapsValues.APPLE_COORDS_LAT,
                                               longitude:GoogleMapsValues.APPLE_COORDS_LONG ,
@@ -111,15 +139,9 @@ class MapView: UIView {
         ]
         
         NSLayoutConstraint.activate(constraints)
-
-        if viewModel == nil{
-            currentLocation()
-        }else {
-            self.showLoadedRoute()
-        }
     }
     
-    private func currentLocation() {
+    func currentLocation() {
        locationManager.delegate = self
        locationManager.desiredAccuracy = kCLLocationAccuracyBest
 
@@ -142,16 +164,20 @@ class MapView: UIView {
     
     private func setMarker(position: MarkerPosition){
         let marker = GMSMarker()
-        let coordinate = route.coordinate(at: position == .start ? 0 : route.count() - 1)
+        let count = self.route?.count()
+        guard let coordinate = self.route?.coordinate(at: position == .start ? 0 : (count ?? 0)  - 1) else { return }
         marker.position = coordinate
 
         marker.map = self.mapView
     }
     
     private func showLoadedRoute(){
-        self.drawLine()
-        self.setMarker(position: .end)
-        setCamera(latitude: route.coordinate(at: 0).latitude, longitude: route.coordinate(at: 0).longitude)
+        DispatchQueue.main.async {
+            self.drawLine()
+            self.setMarker(position: .end)
+            self.setCamera(latitude: self.route?.coordinate(at: 0).latitude ?? 0,
+                           longitude: self.route?.coordinate(at: 0).longitude ?? 0)
+        }
     }
     
     fileprivate func setCamera(latitude:Double, longitude: Double) {
@@ -174,7 +200,7 @@ extension MapView: CLLocationManagerDelegate {
         setCamera(latitude: latitude, longitude: longitude)
         
         if isInRoute {
-            route.add(location.coordinate)
+            route?.add(location.coordinate)
             
             delegate?.mapViewOnRouteCoordinte(latitude: latitude, longitude: longitude)
         }else{
