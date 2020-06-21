@@ -36,6 +36,7 @@ class HomeScreenViewController: UIViewController {
     private func setup() {
         viewModel = HomeScreenViewModel()
         mapView.delegate = self
+        mapView.currentLocation()
         
         loadRoutes()
         
@@ -45,6 +46,12 @@ class HomeScreenViewController: UIViewController {
     }
     
     private func routeButtonPressed(){
+        if !mapView.allowLocationUpdate() {
+            showAlert(title: "ERROR_ALLOW_LOCATION_TITLE".localized, message: "ERROR_ALLOW_LOCATION_MESSAGE".localized)
+
+            return
+        }
+        
         if isInRoute {
             recordButton.setTitle("RECORD".localized ,for: .normal)
             
@@ -88,13 +95,17 @@ class HomeScreenViewController: UIViewController {
         }
     }
     
+    fileprivate func showAlert(title: String, message: String){
+        let alert = AlertManager()
+        alert.showAlertSimple(with: title, message: message, controller: self)
+    }
+    
     //MARK: IBAction
     @IBAction func routeAction(_ sender: Any) {
         routeButtonPressed()
     }
     
     //MARK: Navigation
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == DetailScreenViewController.vcIdentifier {
             guard let currentRoute = sender as? Dictionary<String, Any>  else { return }
@@ -114,7 +125,19 @@ extension HomeScreenViewController: MapViewDelegate{
     }
     
     func mapViewError(error: MapViewError) {
+        var title = ""
+        var message = ""
         
+        switch error {
+        case .mapDidFail:
+            title = "ERROR_ALLOW_LOCATION_TITLE"
+            message = "ERROR_ALLOW_LOCATION_MESSAGE"
+        default:
+            title = "ERROR_GENERIC_TITLE"
+            message = "ERROR_GENERIC_MESSAGE"
+        }
+        
+        showAlert(title: title.localized, message: message.localized)
     }
 }
 
