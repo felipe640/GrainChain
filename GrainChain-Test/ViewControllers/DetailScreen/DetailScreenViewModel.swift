@@ -16,7 +16,6 @@ struct DetailScreenViewModel {
     func deleteRoute(){
         guard let id = route[Route.ID_KEY] as? String else { return }
         
-        let dbm = DatabaseManager()
-        dbm.deleteRoute(id: id)
+        DatabaseManager.shared.deleteRoute(id: id)
     }
 }

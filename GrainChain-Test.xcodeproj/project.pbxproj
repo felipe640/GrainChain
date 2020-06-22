@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		112B0C6624A0121900400988 /* Realm_Database_Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 112B0C6524A0121900400988 /* Realm_Database_Test.swift */; };
 		1143097823C3B15600595046 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1143097723C3B15600595046 /* AppDelegate.swift */; };
 		1143097A23C3B15600595046 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1143097923C3B15600595046 /* SceneDelegate.swift */; };
 		1143098123C3B15800595046 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1143098023C3B15800595046 /* Assets.xcassets */; };
 		1143098423C3B15800595046 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1143098223C3B15800595046 /* LaunchScreen.storyboard */; };
-		1143098F23C3B15800595046 /* GrainChain_TestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1143098E23C3B15800595046 /* GrainChain_TestTests.swift */; };
 		1143099A23C3B15800595046 /* GrainChain_TestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1143099923C3B15800595046 /* GrainChain_TestUITests.swift */; };
 		114309A923C3B1C900595046 /* HomeScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114309A823C3B1C900595046 /* HomeScreenViewController.swift */; };
 		114309AB23C3B1DE00595046 /* HomeScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114309AA23C3B1DE00595046 /* HomeScreenViewModel.swift */; };
@@ -53,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		106B42CC594530D165972329 /* Pods_GrainChain_TestTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GrainChain_TestTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		112B0C6524A0121900400988 /* Realm_Database_Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Realm_Database_Test.swift; sourceTree = "<group>"; };
 		1143097423C3B15600595046 /* GrainChain-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GrainChain-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1143097723C3B15600595046 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1143097923C3B15600595046 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,7 +61,6 @@
 		1143098323C3B15800595046 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1143098523C3B15800595046 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1143098A23C3B15800595046 /* GrainChain-TestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GrainChain-TestTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1143098E23C3B15800595046 /* GrainChain_TestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrainChain_TestTests.swift; sourceTree = "<group>"; };
 		1143099023C3B15800595046 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1143099523C3B15800595046 /* GrainChain-TestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GrainChain-TestUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1143099923C3B15800595046 /* GrainChain_TestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrainChain_TestUITests.swift; sourceTree = "<group>"; };
@@ -166,7 +166,7 @@
 		1143098D23C3B15800595046 /* GrainChain-TestTests */ = {
 			isa = PBXGroup;
 			children = (
-				1143098E23C3B15800595046 /* GrainChain_TestTests.swift */,
+				112B0C6524A0121900400988 /* Realm_Database_Test.swift */,
 				1143099023C3B15800595046 /* Info.plist */,
 			);
 			path = "GrainChain-TestTests";
@@ -600,7 +600,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1143098F23C3B15800595046 /* GrainChain_TestTests.swift in Sources */,
+				112B0C6624A0121900400988 /* Realm_Database_Test.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
