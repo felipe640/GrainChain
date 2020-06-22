@@ -9,9 +9,36 @@
 import Foundation
 import RealmSwift
 
-struct DatabaseManager{
+enum DatabaseEnvironment {
+    case test
+    case dev
+}
+
+class DatabaseManager{
+    //MARK: public static properties
+    static var shared = DatabaseManager()
+    static let test = DatabaseManager(realm: .test)
+    
     //MARK: private properties
     private var coordinates = List<RouteCoordinates>()
+    private var realm: Realm!
+    
+    //MARK: lifecycle functions
+    private init(){
+        self.realm = try! Realm()
+    }
+
+    private init(realm: DatabaseEnvironment){
+        switch realm {
+        case .test:
+            Realm.Configuration.defaultConfiguration.inMemoryIdentifier = "Testing"
+        default:
+            //regular initialization
+            break
+        }
+
+        self.realm = try! Realm()
+    }
     
     //MARK: public functions
     func addCordinates(latitude: Double, longitude: Double){
@@ -21,7 +48,6 @@ struct DatabaseManager{
     }
     
     func saveRoute(name: String?, startTime: Date, endTime: Date, distance: Double){
-        guard let realm = try? Realm() else { return }
         let end = Date()
         let routes = realm.objects(Route.self).count
         var finalName = ""
@@ -43,14 +69,11 @@ struct DatabaseManager{
         try! realm.write {
             realm.add(route)
         }
-    }
-    
-    mutating func removeCoordinates() {
-        coordinates = List<RouteCoordinates>()
+        
+        removeCoordinates()
     }
     
     func deleteRoute(id: String){
-        guard let realm = try? Realm() else { return }
         guard let query = realm.objects(Route.self).filter("id == %@", id).first else { return }
         
         try! realm.write {
@@ -75,6 +98,12 @@ struct DatabaseManager{
     func getRoute(id: String)-> Route? {
         guard let realm = try? Realm() else { return nil }
         let query = realm.objects(Route.self).filter("id == %@", id).first
+        
         return query
+    }
+    
+    //MARK: private functions
+    private func removeCoordinates() {
+        coordinates = List<RouteCoordinates>()
     }
 }

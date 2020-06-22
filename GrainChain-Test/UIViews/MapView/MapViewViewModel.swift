@@ -10,23 +10,11 @@ import Foundation
 import GoogleMaps
 
 struct MapViewViewModel {
-    //MARK: private properties
-    private var databaseManager: DatabaseManager?
-    
-    //MARK: lifecycle functions
-    init(){
-        databaseManager = DatabaseManager()
-    }
     
     //MARK: public functions
     func loadCoordinatesbyRoute(id: String, completion:  @escaping (_ coordinates: GMSMutablePath?) -> Void){
         let routeCoord = GMSMutablePath()
-        guard let dbm = databaseManager else {
-            completion(nil)
-            return
-        }
-        
-        let route = dbm.getRoute(id: id)
+        let route = DatabaseManager.shared.getRoute(id: id)
         
         guard let coordinates = route?.coordinates else {
             completion(nil)

@@ -10,7 +10,6 @@ import Foundation
 
 struct HomeScreenViewModel {
     //MARK: private properties
-    private var databaseManager: DatabaseManager?
     private var startTime: Date?
     
     //MARK: public properties
@@ -18,7 +17,6 @@ struct HomeScreenViewModel {
     
     //MARK: lifecycle functions
     init(){
-        databaseManager = DatabaseManager()
         loadRoutes()
     }
     
@@ -28,23 +26,21 @@ struct HomeScreenViewModel {
     }
     
     func addCoordinates(latitude: Double, longitude: Double){
-        databaseManager?.addCordinates(latitude: latitude, longitude: longitude)
+        DatabaseManager.shared.addCordinates(latitude: latitude, longitude: longitude)
     }
     
     mutating func stopRoute(name: String?, distance: Double){
         saveRoute(name: name, distance: distance)
-        databaseManager?.removeCoordinates()
     }
     
     mutating func loadRoutes(){
-        guard let dbm = databaseManager else { return }
-        routes = dbm.getRoutesList()
+        routes = DatabaseManager.shared.getRoutesList()
     }
     
     //MARK: private functions
     private mutating func saveRoute(name: String?, distance: Double){
         guard let start = startTime else { return }
-        databaseManager?.saveRoute(name: name, startTime: start, endTime: Date(), distance: distance)
+        DatabaseManager.shared.saveRoute(name: name, startTime: start, endTime: Date(), distance: distance)
     }
     
 
